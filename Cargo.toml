@@ -1,0 +1,9 @@
+[package]
+name="ethereum-event-collector"
+version="0.0.1"
+edition="2018"
+authors=["Peter Kozhevnikov <kozhevnikov.peter@gmail.com>"]
+
+[[bin]]
+name="collector"
+path="src/main.rs"
