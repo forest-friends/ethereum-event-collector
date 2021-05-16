@@ -1,3 +1,6 @@
-logging:
-  level: debug
+eth:
+  endpoint: https://dev.dispersi.finance/node
+
+log:
+  level: trace
   format: console

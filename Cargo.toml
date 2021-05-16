@@ -4,6 +4,34 @@ version="0.0.1"
 edition="2018"
 authors=["Peter Kozhevnikov <kozhevnikov.peter@gmail.com>"]
 
+[dependencies]
+thiserror = "1.0.24"
+chrono = "0.4.19"
+
+# Async
+tokio = { version = "1.5.0", features = [ "signal", "sync", "macros", "rt-multi-thread" ] }
+futures = "0.3.14"
+async-trait = "0.1.50"
+
+# Config
+config = "0.11.0"
+serde = { version = "1", features = [ "derive" ] }
+serde_json = "1.0.64"
+strum = "0.20.0"
+strum_macros = "0.20.1"
+
+# Logging
+slog = "2.7.0"
+slog-async = "2.6.0"
+slog-term = "2.8.0"
+slog-json = "2.3.0"
+slog-scope = "4.4.0"
+slog-stdlog = "4.1.0"
+
+# Ethereum
+web3 = "0.14.0"
+url = "2.2.2"
+
 [[bin]]
 name="collector"
 path="src/main.rs"
