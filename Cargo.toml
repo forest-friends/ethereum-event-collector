@@ -9,7 +9,7 @@ thiserror = "1.0.24"
 chrono = "0.4.19"
 
 # Async
-tokio = { version = "1.5.0", features = [ "signal", "sync", "macros", "rt-multi-thread" ] }
+tokio = { version = "1.5.0", features = [ "signal", "sync", "macros", "time", "rt-multi-thread" ] }
 futures = "0.3.14"
 async-trait = "0.1.50"
 

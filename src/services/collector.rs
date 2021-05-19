@@ -1,46 +1,42 @@
-use async_trait::async_trait;
-use std::sync::atomic::{AtomicBool, Ordering};
-use std::thread::sleep;
-use std::time::Duration;
-use tokio::sync::{oneshot, Mutex};
+use crate::services::eth::Transport;
 use crate::utils::{Error, Service};
+use async_trait::async_trait;
 use std::sync::Arc;
-use tokio::sync::oneshot::{Receiver, Sender, channel};
-use std::ops::Deref;
+use tokio::sync::Notify;
+use tokio::time::{sleep, Duration};
+use web3::Web3;
 
 pub struct Collector {
-    quit: Option<Sender<()>>
+    eth: Arc<Web3<Transport>>,
+    quit: Notify,
 }
 
 impl Collector {
-    pub fn new() -> Self {
+    pub fn new(eth: Arc<Web3<Transport>>) -> Self {
         Self {
-            quit: None
+            quit: Notify::new(),
+            eth,
         }
     }
-
-    pub async fn run(&mut self) -> Result<(), Error> {
-        // self.shutdown().await?;
-        let (tx, mut quit) = oneshot::channel::<()>();
-        self.quit = Some(tx);
-        // rx.close();
-
+    pub async fn run(&self) -> Result<(), Error> {
         loop {
             tokio::select! {
-                _ = quit => {
-                    println!("working...");
-        // // //             sleep(Duration::from_secs(1));
+                _ = async {
+                    self.collect_logs().await;
+                    sleep(Duration::from_secs(10)).await;
+                } => {}
+                _ = self.quit.notified() => {
                     break;
                 }
             }
-        };
+        }
 
-        // while !self.quit.load(Ordering::Acquire) {
-        //     println!("working...");
-        //     sleep(Duration::from_secs(10));
-        // }
+        Ok(())
+    }
 
-        println!("t555");
+    async fn collect_logs(&self) -> Result<(), Error> {
+        println!("1");
+
         Ok(())
     }
 }
@@ -48,12 +44,7 @@ impl Collector {
 #[async_trait]
 impl Service for Collector {
     async fn stop(&self) -> Result<(), Error> {
-        println!("EEEXX");
-        // self.quit.store(true, Ordering::Release);
-        // self.quit.as_ref().map(|quit| {
-        //     println!("{:?}", quit);
-        // });
+        self.quit.notify_waiters();
         Ok(())
     }
 }
-

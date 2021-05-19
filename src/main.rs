@@ -1,7 +1,6 @@
-use crate::utils::Error;
 use crate::config::AppConfig;
 use crate::services::App;
-use std::sync::Arc;
+use crate::utils::Error;
 
 mod config;
 mod services;

@@ -1,6 +1,5 @@
-use async_trait::async_trait;
 use crate::utils::Error;
-use tokio::signal::unix::{signal, SignalKind};
+use async_trait::async_trait;
 
 #[async_trait]
 pub trait Service {
